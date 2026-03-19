@@ -14,13 +14,14 @@ const Layout = ({ children }) => {
   // On liste ici toutes les routes de l'ESPACE ADMIN (Login + Dashboard)
   const isAdminPath = location.pathname.startsWith("/hfr-access-secret") || 
                       location.pathname.startsWith("/dashboard-admin-hfr");
+                      location.pathname === "/login"; // Ajoute ceci par sécurité
 
   // Si c'est une route Admin
   if (isAdminPath) {
     // Si c'est la page de LOGIN, on ne met pas de Navbar du tout (total incognito)
-    if (location.pathname === "/hfr-access-secret") {
-      return children;
-    }
+    if (location.pathname === "/hfr-access-secret" || location.pathname === "/login") {
+  return children;
+  }
     // Si c'est le DASHBOARD, on met le LAYOUT ADMIN spécifique
     return <AdminLayout>{children}</AdminLayout>;
   }
