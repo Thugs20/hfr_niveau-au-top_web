@@ -1,0 +1,760 @@
+/* --- TA PALETTE DE COULEURS --- */
+:root {
+  --deep-blue: #1B263B;    /* Bleu Nuit Profond */
+  --neon-orange: #FF5F1F;  /* Orange Néon (Actions) */
+  --indigo: #4B0082;       /* Violet Indigo (Ambiance) */
+  --off-white: #F8F9FA;    /* Blanc Cassé (Texte) */
+}
+
+/* --- STRUCTURE --- */
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--off-white); 
+  font-family: 'Inter', sans-serif;
+  background-color: var(--deep-blue);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.app-container {
+  position: relative;
+  min-height: 100vh;
+  z-index: 1;
+}
+
+/* --- L'IMAGE DE FOND (MICROPHONE) --- */
+.app-container::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image: url('https://media.istockphoto.com/id/1451776362/photo/microphone-in-a-professional-recording-or-radio-studio.jpg?s=612x612&w=0&k=20&c=r_mAh9ELEAgiTbqhxR7l2s7J-lJybFEm4Cweydg3bUg=');
+  background-size: cover;
+  background-position: center;
+  filter: blur(4px) brightness(0.5) saturate(1.2); 
+  z-index: -2;
+}
+
+/* --- L'AMBIANCE LUMINEUSE (Bleu & Violet) --- */
+.app-container::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(
+    135deg, 
+    rgba(27, 38, 59, 0.8) 0%, 
+    rgba(75, 0, 130, 0.4) 100%
+  );
+  z-index: -1;
+}
+
+/* --- NAVIGATION RESPONSIVE --- */
+.main-nav {
+  display: flex;
+  justify-content: space-between; /* Garde le logo à gauche et le burger à droite */
+  padding: 20px 5%;
+  align-items: center;
+  background: rgba(27, 38, 59, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* Retrait de flex-wrap pour éviter que le burger ne tombe */
+}
+
+.logo {
+  font-weight: 900;
+  color: var(--off-white);
+  text-decoration: none;
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: rgba(248, 249, 250, 0.7);
+  font-size: 0.9rem;
+  margin-left: 30px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: var(--neon-orange);
+}
+
+/* --- BOUTON D'ACTION (CTA) --- */
+.admin-link {
+  background: var(--neon-orange);
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(255, 95, 31, 0.4);
+}
+
+/* --- BLOG / NEWS --- */
+.news-page {
+  padding: 40px 5%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .news-page { padding: 80px 5%; }
+}
+
+/* TITRE STACKÉ */
+.glitch-title {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2rem, 10vw, 5rem);
+  font-weight: 900;
+  text-align: center;
+  color: var(--off-white);
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  line-height: 0.9;
+}
+
+.news-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.3s;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .news-card { padding: 40px; margin-bottom: 40px; }
+}
+
+.news-card:hover {
+  border-color: var(--neon-orange);
+  transform: translateY(-5px);
+}
+
+.news-card h2 {
+  color: var(--neon-orange);
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  margin-top: 0;
+}
+
+.news-card p {
+  line-height: 1.6;
+  color: var(--off-white);
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.date {
+  color: var(--indigo);
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+/* --- FORMULAIRE ADMIN --- */
+.admin-form button {
+  background: var(--neon-orange);
+  color: white;
+  border: none;
+  padding: 15px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* STYLE DU BURGER */
+.burger {
+  display: none; /* Caché sur PC */
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1100;
+}
+
+.line {
+  width: 25px;
+  height: 3px;
+  background-color: var(--off-white);
+  transition: 0.3s;
+}
+
+@media (max-width: 992px) {
+  .burger { display: flex; }
+
+  .nav-links {
+    display: none; /* Caché par défaut */
+    position: absolute;
+    top: 100%; /* S'ouvre juste en dessous de la nav */
+    left: 0;
+    width: 100%;
+    background: rgba(27, 38, 59, 0.95);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    padding: 30px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--indigo);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    margin: 15px 0 !important;
+    font-size: 1.2rem;
+    margin-left: 0; /* Important : reset la marge de gauche */
+  }
+}
+
+/* --- PAGE LOGIN INCOGNITO --- */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  padding: 20px;
+}
+
+.login-form {
+  background: rgba(27, 38, 59, 0.8);
+  backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.login-form h2 span {
+  color: var(--neon-orange);
+}
+
+.login-form p {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-bottom: 30px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 6px;
+  outline: none;
+}
+
+.login-form input:focus {
+  border-color: var(--neon-orange);
+}
+
+.login-form button {
+  width: 100%;
+  padding: 15px;
+  background: var(--neon-orange);
+  color: white;
+  border: none;
+  font-weight: 900;
+  text-transform: uppercase;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-form button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 20px rgba(255, 95, 31, 0.4);
+}
+
+.error-msg {
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.1);
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.8rem;
+}
+
+/* =========================================
+   ESPACE ADMIN "HFR STUDIO" - STRUCTURE
+   ========================================= */
+:root {
+  --admin-bg: #0b1120; /* Bleu très sombre mat */
+  --admin-card-bg: #111827; /* Carte légèrement plus claire */
+  --admin-border: #1f2937; /* Bordures fines et discrètes */
+  --admin-text: #e2e8f0;
+  --admin-text-muted: #94a3b8;
+  --admin-accent: #3b82f6; /* Bleu Électrique pour les actions */
+  --admin-accent-hover: #2563eb;
+  --neon-orange: #ff5f1f; /* Rappel de l'orange de la marque */
+}
+
+/* L'enveloppe globale de l'admin (définie dans App.jsx) */
+.admin-wrapper {
+  background-color: var(--admin-bg);
+  min-height: 100vh;
+  color: var(--admin-text);
+  font-family: 'Inter', system-ui, sans-serif; /* Police clean */
+}
+
+/* Container principal avec padding pour le responsive */
+.admin-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* --- NAVBAR ADMIN --- */
+.admin-navbar {
+  background-color: var(--admin-card-bg);
+  border-bottom: 1px solid var(--admin-border);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.admin-logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--admin-text);
+}
+
+.admin-logo span {
+  color: var(--neon-orange);
+}
+
+.admin-nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.admin-nav-links a {
+  color: var(--admin-text-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.admin-nav-links a:hover, .admin-nav-links a.active {
+  color: var(--admin-accent);
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-muted);
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: #ef4444;
+  color: #ef4444;
+}
+
+/* --- TITRE GLITCH (SOBRE) --- */
+.admin-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: var(--admin-text);
+  position: relative;
+}
+
+.admin-title::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background-color: var(--neon-orange);
+}
+
+/* --- FORMULAIRE D'AJOUT --- */
+/* --- STRUCTURE DU FORMULAIRE HARMONISÉE --- */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Aligne les labels à gauche */
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* --- ALIGNEMENT PARFAIT DES CHAMPS --- */
+.admin-form input, 
+.admin-form textarea, 
+.admin-form select {
+  width: 100%; /* Prend toute la largeur du groupe */
+  max-width: 100%; /* Empêche tout débordement */
+  padding: 12px 15px;
+  background-color: #0f172a;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  color: var(--admin-text);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box; /* CRUCIAL : inclut le padding dans les 100% */
+  display: block;
+}
+
+.admin-form input:focus, 
+.admin-form textarea:focus, 
+.admin-form select:focus {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Cas spécifique du Textarea */
+.admin-form textarea {
+  min-height: 120px;
+  resize: vertical; /* Permet de l'agrandir seulement en hauteur */
+}
+
+/* Alignement du bouton de validation */
+.btn-submit {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  background: var(--admin-accent);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: var(--admin-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+  .admin-form-section {
+    padding: 20px 15px;
+  }
+  
+  .admin-form input, 
+  .admin-form textarea, 
+  .admin-form select {
+    font-size: 16px; /* Évite le zoom automatique sur iPhone */
+  }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .admin-navbar {
+    padding: 10px 15px;
+  }
+  
+  .admin-logo {
+    font-size: 1rem;
+  }
+  
+  .admin-nav-links {
+    gap: 10px;
+  }
+  
+  .admin-nav-links a {
+    font-size: 0.8rem;
+  }
+  
+  .btn-logout {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+  
+  .admin-content {
+    padding: 15px;
+  }
+  
+  .admin-form-section {
+    padding: 20px;
+  }
+}
+
+/* --- GRILLE DE GESTION DES NEWS --- */
+/* --- NAVIGATION PAR ONGLETS --- */
+.admin-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--admin-border);
+  padding-bottom: 10px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  color: var(--admin-text-muted);
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  border-radius: 8px;
+}
+
+.tab-btn.active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--admin-accent);
+}
+
+/* --- CARTES DE GESTION STYLE "STUDIO" --- */
+.admin-news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.admin-news-card {
+  background: #1e293b;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--admin-border);
+  transition: transform 0.3s, border-color 0.3s;
+}
+
+.admin-news-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--admin-accent);
+}
+
+.card-image-wrapper {
+  position: relative;
+  height: 180px;
+}
+
+.admin-news-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: var(--admin-accent);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+.admin-news-info {
+  padding: 15px;
+}
+
+.admin-news-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: white;
+}
+
+/* --- BOUTONS D'ACTION --- */
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border-top: 1px solid var(--admin-border);
+  background: rgba(0,0,0,0.2);
+}
+
+.edit-btn {
+  background: none;
+  border: 1px solid #10b981;
+  color: #10b981;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  background: #10b981;
+  color: white;
+}
+
+.delete-btn-premium {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  transition: 0.3s;
+}
+
+.delete-btn-premium:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* --- GRILLE DE GESTION RESPONSIVE --- */
+.admin-news-grid {
+  display: flex; /* On passe en Flex pour mieux contrôler le centrage global */
+  flex-direction: column; /* Une seule colonne */
+  gap: 30px;
+  padding: 20px 0;
+  max-width: 1000px; /* Optionnel : pour éviter que ce soit trop large sur un écran 4K */
+  margin: 0 auto; /* Centre le bloc entier dans la page */
+}
+
+.admin-news-card-premium {
+  background: #1e293b;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  width: 100%; /* Prend toute la largeur de .admin-news-grid */
+  display: flex;
+  flex-direction: column; /* Garde la structure verticale à l'intérieur */
+  transition: 0.3s ease;
+}
+
+.admin-news-card-premium:hover {
+  transform: translateY(-5px);
+  border-color: #3b82f6;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+/* --- MEDIA (IMAGE / VIDEO / AUDIO) --- */
+.card-media-container {
+  width: 100%;
+  background: #000;
+  position: relative;
+}
+
+.admin-news-img {
+  width: 100%;
+  height: 300px; /* Plus grand sur Desktop pour un look premium */
+  object-fit: cover;
+  display: block;
+}
+
+.media-embed {
+  width: 100%;
+  border: none;
+  background: #000;
+  height: 300px; /* Aligné sur la taille de l'image */
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+  .admin-news-img, .media-embed {
+    height: 200px; /* Taille réduite sur mobile */
+  }
+}
+
+/* --- CONTENU --- */
+.card-body {
+  padding: 20px;
+  flex-grow: 1;
+}
+
+.card-body h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.card-body p {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+/* --- BOUTONS (FLEX ET ESPACEMENT) --- */
+.card-footer {
+  display: flex;
+  gap: 12px; /* Espace entre les boutons */
+  padding: 15px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.btn-edit, .btn-delete {
+  flex: 1; /* Les deux boutons prennent la même place */
+  padding: 12px 5px;
+  border-radius: 10px;
+  border: 1px solid;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: 0.3s;
+}
+
+.btn-edit {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.btn-edit:hover {
+  background: #10b981;
+  color: white;
+}
+
+.btn-delete {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.btn-delete:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 480px) {
+  .admin-news-grid {
+    grid-template-columns: 1fr; /* Une seule colonne sur petit mobile */
+  }
+}
