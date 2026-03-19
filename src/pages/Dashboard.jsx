@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore"; 
 import axios from "axios";
 import { FaTrash, FaEdit, FaPlus, FaList } from 'react-icons/fa'; 
-import toast, { Toaster } from 'react-hot-toast'; // Import du Toast
+import toast, { Toaster } from 'react-hot-toast'; 
 
 // Transforme YouTube classique en Embed
 const formatYouTube = (url) => {
@@ -74,17 +74,35 @@ const Dashboard = () => {
     return () => unsubscribe();
   }, [isAuth]);
 
-  // --- SUPPRIMER ---
-  const handleDelete = async (id) => {
-    if (window.confirm("🗑️ Supprimer définitivement cette publication ?")) {
-      try {
-        await deleteDoc(doc(db, "news", id));
-        toast.success("Publication supprimée !"); // Toast Succès
-      } catch (error) {
-        console.error("Erreur suppression:", error);
-        toast.error("Erreur lors de la suppression."); // Toast Erreur
-      }
-    }
+  // --- SUPPRIMER (VERSION TOAST SANS NAVIGATEUR) ---
+  const handleDelete = (id) => {
+    toast((t) => (
+      <span style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'center' }}>
+        <b>Supprimer définitivement ?</b>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <button 
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await deleteDoc(doc(db, "news", id));
+                toast.success("Publication supprimée !");
+              } catch (error) {
+                toast.error("Erreur suppression.");
+              }
+            }}
+            style={{ background: '#ef4444', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+          >
+            Confirmer
+          </button>
+          <button 
+            onClick={() => toast.dismiss(t.id)}
+            style={{ background: '#334155', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '4px', cursor: 'pointer' }}
+          >
+            Annuler
+          </button>
+        </div>
+      </span>
+    ), { duration: 6000 });
   };
 
   // --- PRÉPARER LA MODIFICATION ---
@@ -129,10 +147,10 @@ const Dashboard = () => {
 
       if (editId) {
         await updateDoc(doc(db, "news", editId), newsData);
-        toast.success("✅ Mise à jour réussie !"); // Toast Succès
+        toast.success("✅ Mise à jour réussie !");
       } else {
         await addDoc(collection(db, "news"), { ...newsData, createdAt: serverTimestamp() });
-        toast.success("🎉 News publiée avec succès !"); // Toast Succès
+        toast.success("🎉 News publiée avec succès !");
       }
 
       setTitle(""); setContent(""); setImageFile(null);
@@ -140,7 +158,7 @@ const Dashboard = () => {
       setActiveTab("gerer");
     } catch (error) {
       console.error(error);
-      toast.error("⚠️ Erreur lors de l'enregistrement."); // Toast Erreur
+      toast.error("⚠️ Erreur lors de l'enregistrement.");
     }
     setLoading(false);
   };
@@ -149,8 +167,7 @@ const Dashboard = () => {
 
   return (
     <div className="admin-container">
-      {/* Le Toaster est nécessaire pour afficher les toasts */}
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
 
       <div className="admin-tabs">
         <button 
